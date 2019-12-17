@@ -1,5 +1,10 @@
 {
+  "alias": "djm.sh",
+  "github": {
+    "autoAlias": false,
+    "silent": true
+  },
   "redirects": [
-    { "source": "/me", "destination": "https://devinmetivier.com", "statusCode": 418 }
+    { "source": "/me", "destination": "https://devinmetivier.com" }
   ]
 }
