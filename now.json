@@ -1,7 +1,7 @@
 {
   "alias": "djm.sh",
   "github": {
-    "autoAlias": false,
+    "autoAlias": true,
     "silent": true
   },
   "redirects": [
