@@ -11,6 +11,7 @@
     { "source": "/this", "destination": "https://github.com/devjmetivier/djm.sh" },
     
     { "source": "/no", "destination": "http://nooooooooooooooo.com/" },
+    { "source": "/gg", "destination": "http://www.instantrapairhorn.com/" },
     { "source": "/rr", "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
   ]
 }
