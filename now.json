@@ -7,6 +7,8 @@
   "redirects": [
     { "source": "/me", "destination": "https://devinmetivier.com" },
     { "source": "/uses", "destination": "https://uses.tobea.dev" },
+    { "source": "/github", "destination": "https://github.com/devjmetivier/" },
+    { "source": "/this", "destination": "https://github.com/devjmetivier/djm.sh" },
     
     { "source": "/no", "destination": "http://nooooooooooooooo.com/" },
     { "source": "/rr", "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
