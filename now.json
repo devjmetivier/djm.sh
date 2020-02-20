@@ -10,7 +10,7 @@
     { "source": "/this", "destination": "https://github.com/devjmetivier/djm.sh" },
     
     { "source": "/github", "destination": "https://github.com/devjmetivier/" },
-    { "source": "/github", "destination": "https://twitter.com/devjmetivier" },
+    { "source": "/twitter", "destination": "https://twitter.com/devjmetivier" },
     
     { "source": "/no", "destination": "http://nooooooooooooooo.com/" },
     { "source": "/gg", "destination": "http://www.instantrapairhorn.com/" },
