@@ -3,20 +3,5 @@
   "github": {
     "autoAlias": true,
     "silent": true
-  },
-  "redirects": [
-    { "source": "/me", "destination": "https://devinmetivier.com" },
-    { "source": "/uses", "destination": "https://uses.tobea.dev" },
-    { "source": "/this", "destination": "https://github.com/devjmetivier/djm.sh" },
-    
-    { "source": "/github", "destination": "https://github.com/devjmetivier/" },
-    { "source": "/twitter", "destination": "https://twitter.com/devjmetivier" },
-    
-    { "source": "/no", "destination": "http://nooooooooooooooo.com/" },
-    { "source": "/gg", "destination": "http://www.instantrapairhorn.com/" },
-    { "source": "/rr", "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    { "source": "/intensify", "destination": "http://intensifies.xyz" },
-    
-    { "source": "/lce/config", "destination": "https://dev.azure.com/LCE-DIGITAL/eComm/_git/gila/pullrequest/11034?_a=overview" }
-  ]
+  }
 }
