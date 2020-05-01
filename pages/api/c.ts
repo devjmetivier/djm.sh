@@ -1,5 +1,6 @@
 import { NextApiHandler } from "next";
 import * as admin from "firebase-admin";
+
 import { uid, getEnvVariables } from "../../utils";
 
 const serviceAccount: any = getEnvVariables();

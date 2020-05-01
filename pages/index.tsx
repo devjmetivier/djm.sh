@@ -1,14 +1,4 @@
-import {
-  Row,
-  Loading,
-  Text,
-  Spacer,
-  Col,
-  Card,
-  Code,
-  User,
-  Link,
-} from "@zeit-ui/react";
+import { Row, Spacer, Card, Code, User, Link } from "@zeit-ui/react";
 
 export default function Index() {
   const code = `https://djm.sh/9nGKZV

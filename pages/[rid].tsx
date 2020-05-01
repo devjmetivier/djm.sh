@@ -2,20 +2,27 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Row, Loading } from "@zeit-ui/react";
 
+import { IPIFY } from "./api/r/[...params]";
+
 export default function RedirectID() {
   const { push, query } = useRouter();
-  const [ip, setIP] = React.useState();
+  const [ip, setIP] = React.useState<string | "undefined">();
+  const [error, setError] = React.useState<any | undefined>("");
 
   React.useEffect(() => {
-    const getIp = async () => {
-      const ip = await fetch("https://api.ipify.org?format=json")
-        .then((x) => x.json())
-        .then((x) => x.ip);
+    const getIp = () =>
+      fetch("https://api.ipify.org?format=json")
+        .then(async (x) => {
+          const res: IPIFY = await x.json();
+          setIP(res.ip);
+        })
+        .catch((err) => {
+          setError(err);
+          setIP("undefined");
+        });
 
-      setIP(ip);
-    };
-
-    if (query.rid && ip) push(`/api/r/${query.rid}/${ip}`);
+    if (query.rid && ip)
+      push(`/api/r/${query.rid}/${ip}${error && `/${error}`}`);
 
     !ip && getIp();
   });
