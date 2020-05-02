@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useRouter } from "next/router";
 import { Row, Loading } from "@zeit-ui/react";
+import { useRouter } from "next/router";
 
 import { IPIFY } from "./api/r/[...params]";
 

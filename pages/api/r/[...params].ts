@@ -57,20 +57,16 @@ const redirectWithParams: NextApiHandler = async (req, res) => {
   let ip = params[1];
   let err = params[2];
 
-  console.log("rid: ", rid);
-  console.log("ip: ", ip);
-  console.log("err: ", err);
-
   let ref, docExists: boolean;
 
   if (!isIp(ip) && ip !== "undefined")
     return res.send("Not a proper IP address");
 
   const redirect = async (error?: any) => {
-    const redirectRef = db.collection("redirects").doc(params[0]);
+    const redirectRef = db.collection("redirects").doc(rid);
     const requestsRef = db
       .collection("redirects")
-      .doc(params[0])
+      .doc(rid)
       .collection("requests")
       .doc(uid());
 
@@ -79,8 +75,7 @@ const redirectWithParams: NextApiHandler = async (req, res) => {
       ref = doc.data();
     });
 
-    if (!docExists)
-      return res.send(`Redirect does not exist for ID: ${params[0]}`);
+    if (!docExists) return res.send(`Redirect does not exist for ID: ${rid}`);
 
     let userData: IPIFY | any;
 
@@ -90,7 +85,7 @@ const redirectWithParams: NextApiHandler = async (req, res) => {
         error,
       };
     } else {
-      userData = await fetch(`https://ipapi.co/${params[1]}/json/`)
+      userData = await fetch(`https://ipapi.co/${ip}/json/`)
         .then((x) => x.json())
         .catch((err) => {
           res.send(`Error with ipify call: ${err}`);

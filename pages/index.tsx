@@ -6,7 +6,7 @@ https://djm.sh/example`;
 
 export default function Index() {
   return (
-    <div
+    <main
       style={{
         display: "flex",
         flexFlow: "column nowrap",
@@ -22,8 +22,8 @@ export default function Index() {
       <Card style={{ maxWidth: 540 }}>
         <h4>About</h4>
         <p>
-          This site functions as a redirect service and URL shortener. New short
-          URL's can be created - either generated or custom:
+          This site functions as a URL shortener service. Short URL's can be
+          either generated or custom:
         </p>
         <p>
           <Code block>{code}</Code>
@@ -33,7 +33,7 @@ export default function Index() {
           frequently to prevent misuse and protect data quotas.
         </p>
       </Card>
-      <Spacer y={1}></Spacer>
+      <Spacer y={1} />
       <Row style={{ maxWidth: 540, width: "100%" }} justify="space-between">
         <User
           src="https://www.gravatar.com/avatar/0ba730c920839c918114571f6672e5a5"
@@ -48,6 +48,6 @@ export default function Index() {
           Github
         </Link>
       </Row>
-    </div>
+    </main>
   );
 }
