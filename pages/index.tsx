@@ -1,10 +1,10 @@
 import { Row, Spacer, Card, Code, User, Link } from "@zeit-ui/react";
 
-export default function Index() {
-  const code = `https://djm.sh/9nGKZV
-  
+const code = `https://djm.sh/9nGKZV
+
 https://djm.sh/example`;
 
+export default function Index() {
   return (
     <div
       style={{

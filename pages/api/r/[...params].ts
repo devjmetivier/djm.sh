@@ -43,7 +43,7 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-const redirect: NextApiHandler = async (req, res) => {
+const redirectWithParams: NextApiHandler = async (req, res) => {
   const {
     query: { params },
   } = req;
@@ -112,4 +112,4 @@ const redirect: NextApiHandler = async (req, res) => {
   return;
 };
 
-export default redirect;
+export default redirectWithParams;

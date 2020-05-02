@@ -21,7 +21,6 @@ const createRedirect: NextApiHandler = async (req, res) => {
   if (!url) return res.send("Improper params supplied");
 
   let data: string;
-
   async function create() {
     const rid = custom ? custom : uid(parseInt(idLimit));
     const redirectRef = db.collection("redirects").doc(rid);
