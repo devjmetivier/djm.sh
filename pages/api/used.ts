@@ -23,22 +23,14 @@ const used: NextApiHandler = async (req, res) => {
   }
 
   const usedRef = db.collection("redirects").doc(rid);
+  const usedDoc = await usedRef.get();
 
-  const usedResponse = await usedRef.get().then((redirect) => {
-    if (!redirect.exists) {
-      res.writeHead(404, { Location: "/404/doesnt-exist" });
-      res.end();
-    }
+  if (!usedDoc.exists) return res.status(404).send("nada");
 
-    const data = redirect.data();
+  const data = usedDoc.data();
+  if (!data.used) return res.status(200).send({ used: "no" });
 
-    if (!data.used) return "no";
-
-    return "yes";
-  });
-
-  res.send({ used: usedResponse });
-  return;
+  return res.status(200).send({ used: "yes" });
 };
 
 export default used;

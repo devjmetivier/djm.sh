@@ -15,12 +15,13 @@ export default function Used() {
   } = useRouter();
 
   React.useEffect(() => {
-    fetch(`/api/used?rid=${rid}`)
-      .then(async (x) => {
-        const data: UsedResponse = await x.json();
-        setUsed(data.used);
-      })
-      .catch(() => push("/404/doesnt-exist"));
+    rid &&
+      fetch(`/api/used?rid=${rid}`)
+        .then(async (x) => {
+          const data: UsedResponse = await x.json();
+          setUsed(data.used);
+        })
+        .catch(() => push("/404/doesnt-exist"));
   }, [rid]);
 
   return (
