@@ -6,21 +6,24 @@
   "author": "Devin Metivier @devjmetivier",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@zeit-ui/react": "^1.0.0-rc.10",
-    "firebase-admin": "^8.11.0",
-    "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.3.5",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@hookform/error-message": "^2.0.0",
+    "@radix-ui/react-separator": "^0.1.1",
+    "@upstash/redis": "^0.1.5",
+    "next": "^12.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.20.4",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
-    "@types/node": "^13.13.2",
-    "@types/react": "^16.9.34",
-    "typescript": "^3.8.3"
+    "@types/node": "^16.11.9",
+    "@types/react": "^17.0.36",
+    "eslint-config-devjmetivier": "^2.4.0",
+    "typescript": "^4.5.2"
   }
 }

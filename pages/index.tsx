@@ -1,53 +1,84 @@
-import { Row, Spacer, Card, Code, User, Link } from "@zeit-ui/react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import * as React from 'react';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import Head from 'next/head';
+import useSWRInfinite from 'swr/infinite';
 
-const code = `https://djm.sh/9nGKZV
+import { Nav } from '../components';
+import { Pair } from '../types';
 
-https://djm.sh/example`;
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const DEFAULT_LIMIT = 9;
 
-export default function Index() {
+export default function Index({ initialData, limit }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { data, isValidating, setSize, mutate, size } = useSWRInfinite<Pair[]>(
+    (pageIndex) => `/api/list?page=${pageIndex}&limit=${limit}`,
+    fetcher,
+    {
+      fallbackData: [initialData],
+      initialSize: 1,
+      revalidateOnFocus: false,
+      revalidateOnMount: false,
+    },
+  );
+
+  const isLoadingMore = React.useMemo(() => size > 0 && data && typeof data[size - 1] === 'undefined', [data, size]);
+  const isReachingEnd = React.useMemo(() => data && data[data.length - 1].length < DEFAULT_LIMIT, [data]);
+  const isRefreshing = React.useMemo(() => isValidating && data && data.length === size, [data, isValidating, size]);
+
   return (
-    <main
-      style={{
-        display: "flex",
-        flexFlow: "column nowrap",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 16,
-        height: "100vh",
-      }}
-    >
-      <Row justify="center">
-        <h1>djm.sh</h1>
-      </Row>
-      <Card style={{ maxWidth: 540 }}>
-        <h4>About</h4>
-        <p>
-          This site functions as a URL shortener service. Short URL's can be
-          either generated or custom:
-        </p>
-        <p>
-          <Code block>{code}</Code>
-        </p>
-        <p>
-          Some information is collected when a URL is used. Requests are cached
-          frequently to prevent misuse and protect data quotas.
-        </p>
-      </Card>
-      <Spacer y={1} />
-      <Row style={{ maxWidth: 540, width: "100%" }} justify="space-between">
-        <User
-          src="https://www.gravatar.com/avatar/0ba730c920839c918114571f6672e5a5"
-          name="Devin Metivier"
-        >
-          <User.Link href="https://twitter.com/devjmetivier">
-            @devjmetivier
-          </User.Link>
-        </User>
+    <main className='container'>
+      <Head>
+        <title>djm.sh</title>
+        <link href='https://fonts.googleapis.com' rel='preconnect' />
+        <link crossOrigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect' />
+        <link href='https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap' rel='stylesheet' />
+      </Head>
 
-        <Link href="/this" pure block>
-          Github
-        </Link>
-      </Row>
+      <h1>djm.sh</h1>
+      <Nav />
+
+      <div className='link-table'>
+        {data &&
+          data.map((redirects) =>
+            redirects.map((redirect) => (
+              <a href={redirect.value} key={redirect.key} rel='noreferrer' target='_blank'>
+                <span className='truncate'>{redirect.key}</span>
+                <span>
+                  {String.fromCharCode(45)}
+                  {String.fromCharCode(62)}
+                </span>
+              </a>
+            )),
+          )}
+      </div>
+
+      <div className='actions'>
+        <div>
+          <button disabled={isLoadingMore || isReachingEnd} onClick={() => setSize((prev) => prev + 1)}>
+            {isLoadingMore ? 'Loading...' : isReachingEnd ? 'No More' : 'Load More'}
+          </button>
+          <button disabled={isRefreshing} onClick={() => mutate()}>
+            {isRefreshing ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
+      </div>
     </main>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{ initialData: Pair[]; limit: number }> = async ({ query }) => {
+  const { limit } = query;
+
+  const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://djm.sh';
+  const request = new Request(`${baseUrl}/api/list?page=0&limit=${limit ?? DEFAULT_LIMIT}`, {
+    method: 'GET',
+    mode: 'same-origin',
+  });
+  const res = await fetch(request);
+  const initialData: Pair[] = await res.json();
+
+  return {
+    props: { initialData, limit: limit ? Number(limit) : DEFAULT_LIMIT },
+  };
+};
