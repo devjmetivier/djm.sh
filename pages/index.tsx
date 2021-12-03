@@ -11,7 +11,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const DEFAULT_LIMIT = 9;
 
 export default function Index({ initialData, limit }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data, isValidating, setSize, mutate, size } = useSWRInfinite<Pair[]>(
+  const { data, isValidating, setSize, mutate, size } = useSWRInfinite<string[]>(
     (pageIndex) => `/api/list?page=${pageIndex}&limit=${limit}`,
     fetcher,
     {
@@ -42,8 +42,13 @@ export default function Index({ initialData, limit }: InferGetServerSidePropsTyp
         {data &&
           data.map((redirects) =>
             redirects.map((redirect) => (
-              <a href={redirect.value} key={redirect.key} rel='noreferrer' target='_blank'>
-                <span className='truncate'>{redirect.key}</span>
+              <a
+                href={redirect.includes(':') ? `/${redirect.split(':')[0]}/${redirect.split(':')[1]}` : `/${redirect}`}
+                key={redirect}
+                rel='noreferrer'
+                target='_blank'
+              >
+                <span className='truncate'>{redirect}</span>
                 <span>
                   {String.fromCharCode(45)}
                   {String.fromCharCode(62)}
@@ -67,7 +72,7 @@ export default function Index({ initialData, limit }: InferGetServerSidePropsTyp
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{ initialData: Pair[]; limit: number }> = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps<{ initialData: string[]; limit: number }> = async ({ query }) => {
   const { limit } = query;
 
   const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://djm.sh';
@@ -76,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<{ initialData: Pair[]; limit
     mode: 'same-origin',
   });
   const res = await fetch(request);
-  const initialData: Pair[] = await res.json();
+  const initialData: string[] = await res.json();
 
   return {
     props: { initialData, limit: limit ? Number(limit) : DEFAULT_LIMIT },
