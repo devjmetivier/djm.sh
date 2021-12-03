@@ -23,11 +23,23 @@ export default function Set({ keyProp, password, url }: InferGetServerSidePropsT
 
   const onSubmit = React.useCallback(
     async ({ key, url, password }: FormData) => {
-      const request = new Request('/api/set', {
+      let reqKey: string | undefined;
+      let reqProperty: string | undefined;
+
+      if (key.includes(':')) {
+        const split = key.split(':');
+        reqKey = split[0];
+        reqProperty = split[1];
+      }
+
+      const request = new Request(typeof reqProperty !== 'undefined' ? '/api/hash-set' : '/api/set', {
         method: 'POST',
         mode: 'same-origin',
         headers: { Authorization: `Bearer ${password}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key, value: url, password }),
+        body:
+          typeof reqProperty !== 'undefined'
+            ? JSON.stringify({ key: reqKey, property: reqProperty, value: url })
+            : JSON.stringify({ key, value: url }),
       });
 
       try {
@@ -74,7 +86,7 @@ export default function Set({ keyProp, password, url }: InferGetServerSidePropsT
             {...register('key', {
               required: 'Key is required',
               pattern: {
-                value: /^[a-z0-9\-\_]*$/,
+                value: /^[a-z0-9\-\_\:]*$/,
                 message: 'Key must be alphanumeric and lowercase',
               },
             })}
@@ -110,6 +122,7 @@ export default function Set({ keyProp, password, url }: InferGetServerSidePropsT
           <ErrorMessage as={<span className='error-message' />} errors={errors} name='password' />
         </div>
 
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input disabled={isSubmitting || isValidating} type='submit' />
       </form>
     </main>

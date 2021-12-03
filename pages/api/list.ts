@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { lrange, mget } from '@upstash/redis';
+import { lrange } from '@upstash/redis';
 
 export default async function upstashList(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
@@ -17,12 +17,7 @@ export default async function upstashList(req: NextApiRequest, res: NextApiRespo
 
     if ((range as string[]).length < 1) return res.status(200).send([]);
 
-    const { data, error } = await mget(...range);
-    if (error) return res.status(400).send(error);
-
-    const response = range.map((key: string, i: number) => ({ key, value: decodeURIComponent(data[i]) }));
-
-    return res.status(200).send(response);
+    return res.status(200).send(range);
   } catch (error) {
     throw new Error(error);
   }
