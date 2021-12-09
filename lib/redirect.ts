@@ -1,5 +1,6 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { get, hget } from '@upstash/redis';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import '../utils/auth';
 
 const whiteList = ['api', 'set'];
 
@@ -18,8 +19,7 @@ export async function redirect(req: NextRequest, event: NextFetchEvent) {
 
       return NextResponse.redirect(decodeURIComponent(data));
     } catch (error) {
-      console.log({ error });
-      return NextResponse.redirect('/', 404);
+      return NextResponse.next();
     }
   }
 
@@ -29,7 +29,6 @@ export async function redirect(req: NextRequest, event: NextFetchEvent) {
 
     return NextResponse.redirect(decodeURIComponent(data));
   } catch (error) {
-    console.log({ error });
-    return NextResponse.redirect('/', 404);
+    return NextResponse.next();
   }
 }

@@ -1,8 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { get } from '@upstash/redis';
 import ms from 'ms';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { Key } from '../../types';
+import '../../utils/auth';
 
 export default async function upstashGet(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
