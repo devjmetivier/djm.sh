@@ -1,7 +1,8 @@
+import { hget, hset, lpush } from '@upstash/redis';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { hset, hget, lpush } from '@upstash/redis';
 
 import { HashSet } from '../../types';
+import '../../utils/auth';
 
 export default async function upstashHashSet(req: NextApiRequest, res: NextApiResponse) {
   const { method, headers } = req;

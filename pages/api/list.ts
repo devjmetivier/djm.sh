@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { lrange } from '@upstash/redis';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import '../../utils/auth';
 
 export default async function upstashList(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;

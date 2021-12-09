@@ -1,7 +1,8 @@
+import { get, lpush, set } from '@upstash/redis';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { set, lpush, get } from '@upstash/redis';
 
 import { Pair } from '../../types';
+import '../../utils/auth';
 
 export default async function upstashSet(req: NextApiRequest, res: NextApiResponse) {
   const { method, headers } = req;
